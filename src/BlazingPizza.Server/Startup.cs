@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Net.Mime;
+using ElectronNET.API;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,7 +41,7 @@ namespace BlazingPizza.Server
                     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 })
                 .AddCookie()
-                .AddTwitter(twitterOptions =>
+                /*.AddTwitter(twitterOptions =>
                 {
                     twitterOptions.ConsumerKey = Configuration["Authentication:Twitter:ConsumerKey"];
                     twitterOptions.ConsumerSecret = Configuration["Authentication:Twitter:ConsumerSecret"];
@@ -49,7 +50,7 @@ namespace BlazingPizza.Server
                         context.HandleResponse();
                         return context.Response.WriteAsync("<script>window.close();</script>");
                     };
-                });
+                })*/;
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -74,6 +75,8 @@ namespace BlazingPizza.Server
                 endpoints.MapControllers();
                 endpoints.MapFallbackToClientSideBlazor<Client.Startup>("index.html");
             });
+
+            Electron.WindowManager.CreateWindowAsync();
         }
     }
 }
